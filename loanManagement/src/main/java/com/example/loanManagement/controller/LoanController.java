@@ -18,7 +18,7 @@ public class LoanController {
     public LoanController(LoanService loanService) {
         this.loanService = loanService;
     }
-    @PostMapping(("/create-load/"))
+    @PostMapping(("/create-loan"))
     public Loan createLoan(@RequestBody LoanRequestDTO requestDTO) {
         return loanService.createLoan(requestDTO);
     }
