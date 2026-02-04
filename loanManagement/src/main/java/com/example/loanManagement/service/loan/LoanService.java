@@ -10,10 +10,6 @@ import java.util.List;
 
 public interface LoanService {
     Loan createLoan(LoanRequestDTO requestDTO);
-
-    Payment addPayment(PaymentRequestDTO requestDTO);
-
     LoanSummaryDTO getLoanSummary(Long loanId);
-
     List<Loan> getAllLoans();
 }

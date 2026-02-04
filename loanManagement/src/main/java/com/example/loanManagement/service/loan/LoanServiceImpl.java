@@ -59,32 +59,7 @@ public class LoanServiceImpl implements LoanService{
         return loanRepository.save(loan);
     }
 
-    @Override
-    public Payment addPayment(PaymentRequestDTO requestDTO) {
 
-        Loan loan = loanRepository.findById(requestDTO.getLoanId())
-                .orElseThrow(() -> new RuntimeException("Loan not found"));
-
-        Payment payment = new Payment();
-        payment.setLoanId(requestDTO.getLoanId());
-        payment.setAmountPaid(requestDTO.getAmountPaid());
-        payment.setPaymentDate(LocalDate.now());
-
-        paymentRepository.save(payment);
-
-        double totalPaid = paymentRepository.getTotalPaid(loan.getId());
-        double remaining = loan.getTotalExpectedAmount() - totalPaid;
-
-        loan.setRemainingBalance(Math.max(remaining, 0));
-
-        if (remaining <= 0) {
-            loan.setStatus(LoanStatus.CLOSED);
-        }
-
-        loanRepository.save(loan);
-
-        return payment;
-    }
     @Override
     public LoanSummaryDTO getLoanSummary(Long loanId) {
 
