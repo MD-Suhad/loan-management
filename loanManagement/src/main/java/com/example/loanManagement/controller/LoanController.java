@@ -23,11 +23,11 @@ public class LoanController {
         return loanService.createLoan(requestDTO);
     }
 
-    @GetMapping
+    @GetMapping("/all-loans")
     public List<Loan> getAllLoans() {
         return loanService.getAllLoans();
     }
-    @GetMapping("/{loanId}/summary")
+    @GetMapping("/all-loans-by-summary-by-loanId/{loanId}")
     public LoanSummaryDTO getLoanSummary(@PathVariable Long loanId) {
         return loanService.getLoanSummary(loanId);
     }
