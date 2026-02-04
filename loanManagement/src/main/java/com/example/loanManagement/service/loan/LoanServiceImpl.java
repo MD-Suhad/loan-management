@@ -27,9 +27,7 @@ public class LoanServiceImpl implements LoanService{
     }
     @Override
     public Loan createLoan(LoanRequestDTO requestDTO) {
-
         Loan loan = new Loan();
-
         BigDecimal principal = BigDecimal.valueOf(requestDTO.getPrincipalAmount());
         BigDecimal annualRate = BigDecimal.valueOf(requestDTO.getInterestRate());
         int tenure = requestDTO.getTenureMonths();
@@ -63,7 +61,7 @@ public class LoanServiceImpl implements LoanService{
     @Override
     public LoanSummaryDTO getLoanSummary(Long loanId) {
 
-        Loan loan = loanRepository.findById(loanId)
+        Loan loan = this.loanRepository.findById(loanId)
                 .orElseThrow(() -> new RuntimeException("Loan not found"));
 
         double totalPaid = paymentRepository.getTotalPaid(loanId);
