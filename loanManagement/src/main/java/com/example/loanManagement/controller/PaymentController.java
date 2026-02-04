@@ -17,7 +17,7 @@ public class PaymentController {
     public PaymentController( PaymentService paymentService) {
         this.paymentService = paymentService;
     }
-    @PostMapping
+    @PostMapping("payment-created-by-loan")
     public Payment addPayment(@RequestBody PaymentRequestDTO requestDTO) {
         return paymentService.addPayment(requestDTO);
     }

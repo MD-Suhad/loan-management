@@ -6,9 +6,11 @@ import com.example.loanManagement.model.LoanStatus;
 import com.example.loanManagement.model.Payment;
 import com.example.loanManagement.repository.LoanRepository;
 import com.example.loanManagement.repository.PaymentRepository;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 
+@Service
 public class PaymentServiceImpl implements PaymentService{
     private final LoanRepository loanRepository;
     private final PaymentRepository paymentRepository;
