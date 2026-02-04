@@ -10,11 +10,12 @@ import com.example.loanManagement.repository.LoanRepository;
 import com.example.loanManagement.repository.PaymentRepository;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.List;
 
 @Service
-
 public class LoanServiceImpl implements LoanService{
 
     private final LoanRepository loanRepository;
@@ -29,23 +30,35 @@ public class LoanServiceImpl implements LoanService{
 
         Loan loan = new Loan();
 
+        BigDecimal principal = BigDecimal.valueOf(requestDTO.getPrincipalAmount());
+        BigDecimal annualRate = BigDecimal.valueOf(requestDTO.getInterestRate());
+        int tenure = requestDTO.getTenureMonths();
+        BigDecimal monthlyRate = annualRate.divide(BigDecimal.valueOf(12), 10, RoundingMode.HALF_UP).divide(BigDecimal.valueOf(100), 10, RoundingMode.HALF_UP);
+        BigDecimal onePlusRPowerN = monthlyRate.add(BigDecimal.ONE).pow(tenure);
+        BigDecimal emi = principal.multiply(monthlyRate).multiply(onePlusRPowerN)
+                .divide(
+                        onePlusRPowerN.subtract(BigDecimal.ONE),
+                        10,
+                        RoundingMode.HALF_UP
+                );
+        emi = emi.setScale(2, RoundingMode.HALF_UP);
+        BigDecimal totalExpected = emi
+                .multiply(BigDecimal.valueOf(tenure))
+                .setScale(2, RoundingMode.HALF_UP);
+
         loan.setCustomerName(requestDTO.getCustomerName());
-        loan.setPrincipalAmount(requestDTO.getPrincipalAmount());
-        loan.setInterestRate(requestDTO.getInterestRate());
-        loan.setTenureMonths(requestDTO.getTenureMonths());
-        double interest = requestDTO.getPrincipalAmount() * (requestDTO.getInterestRate() / 100);
-        double totalExpected = requestDTO.getPrincipalAmount() + interest;
-        double emi = totalExpected / requestDTO.getTenureMonths();
-
-        loan.setTotalExpectedAmount(totalExpected);
-        loan.setEmi(emi);
-        loan.setRemainingBalance(totalExpected);
-
+        loan.setPrincipalAmount(principal.setScale(2, RoundingMode.HALF_UP).doubleValue());
+        loan.setInterestRate(annualRate.setScale(2, RoundingMode.HALF_UP).doubleValue());
+        loan.setTenureMonths(tenure);
+        loan.setEmi(emi.doubleValue());
+        loan.setTotalExpectedAmount(totalExpected.doubleValue());
+        loan.setRemainingBalance(totalExpected.doubleValue());
         loan.setStatus(LoanStatus.ACTIVE);
         loan.setCreatedDate(LocalDate.now());
 
         return loanRepository.save(loan);
     }
+
     @Override
     public Payment addPayment(PaymentRequestDTO requestDTO) {
 

@@ -21,18 +21,18 @@ public class Loan {
     private Long id;
 
     private String customerName;
-
+    @Column(columnDefinition = "Decimal(10,2)")
     private double principalAmount;
-
+    @Column(columnDefinition = "Decimal(10,2)")
     private double interestRate;
 
     private int tenureMonths;
 
-    // Calculated fields
+    @Column(columnDefinition = "Decimal(10,2)")
     private double emi;
-
+    @Column(columnDefinition = "Decimal(10,2)")
     private double totalExpectedAmount;
-
+    @Column(columnDefinition = "Decimal(10,2)")
     private double remainingBalance;
 
     @Enumerated(EnumType.STRING)
