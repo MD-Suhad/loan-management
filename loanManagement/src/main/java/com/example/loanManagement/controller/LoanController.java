@@ -28,7 +28,7 @@ public class LoanController {
         return loanService.getAllLoans();
     }
     @GetMapping("/all-loans-by-summary-by-loanId/{loanId}")
-    public LoanSummaryDTO getLoanSummary(@PathVariable Long loanId) {
+    public LoanSummaryDTO getLoanSummaryAll(@PathVariable Long loanId) {
         return loanService.getLoanSummary(loanId);
     }
 }
