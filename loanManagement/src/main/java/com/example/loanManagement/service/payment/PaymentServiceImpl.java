@@ -21,16 +21,14 @@ public class PaymentServiceImpl implements PaymentService{
     }
 
     @Override
-    public Payment addPayment(PaymentRequestDTO requestDTO) {
+    public Payment addPayment(PaymentRequestDTO paymentRequestDTO) {
 
-        Loan loan = loanRepository.findById(requestDTO.getLoanId())
-                .orElseThrow(() -> new RuntimeException("Loan not found"));
-
+        Loan loan = loanRepository.findById(paymentRequestDTO.getLoanId()).orElseThrow(() -> new RuntimeException("Loan not found"));
         Payment payment = new Payment();
-        payment.setLoanId(requestDTO.getLoanId());
-        payment.setAmountPaid(requestDTO.getAmountPaid());
+        int loanId = Math.toIntExact(paymentRequestDTO.getLoanId());
+        payment.setLoan(loanId);
+        payment.setAmountPaid(paymentRequestDTO.getAmountPaid());
         payment.setPaymentDate(LocalDate.now());
-
         paymentRepository.save(payment);
 
         double totalPaid = paymentRepository.getTotalPaid(loan.getId());

@@ -1,9 +1,6 @@
 package com.example.loanManagement.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,11 +17,11 @@ public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private Long loanId;
-
     private double amountPaid;
-
     private LocalDate paymentDate;
+    @ManyToOne
+    @JoinColumn(name = "loan_id")
+    private Loan loan;
+
 
 }
