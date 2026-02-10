@@ -25,8 +25,7 @@ public class PaymentServiceImpl implements PaymentService{
 
         Loan loan = loanRepository.findById(paymentRequestDTO.getLoanId()).orElseThrow(() -> new RuntimeException("Loan not found"));
         Payment payment = new Payment();
-        int loanId = Math.toIntExact(paymentRequestDTO.getLoanId());
-        payment.setLoan(loanId);
+        payment.setLoan(loan);
         payment.setAmountPaid(paymentRequestDTO.getAmountPaid());
         payment.setPaymentDate(LocalDate.now());
         paymentRepository.save(payment);

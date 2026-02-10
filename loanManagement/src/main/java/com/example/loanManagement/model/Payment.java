@@ -20,7 +20,7 @@ public class Payment {
     private double amountPaid;
     private LocalDate paymentDate;
     @ManyToOne
-    @JoinColumn(name = "loan_id")
+    @JoinColumn(name = "loan_id", nullable = false)
     private Loan loan;
 
 
