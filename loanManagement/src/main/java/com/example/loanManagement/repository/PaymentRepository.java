@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PaymentRepository extends JpaRepository<Payment,Long>{
-    @Query("SELECT COALESCE(SUM(p.amountPaid), 0) FROM Payment p WHERE p.loanId =:loanId ")
+    @Query("SELECT COALESCE(SUM(p.amountPaid), 0) FROM Payment p WHERE p.loan.id =:loanId ")
     double getTotalPaid(Long loanId);
 
 }
