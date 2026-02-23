@@ -6,4 +6,5 @@ import org.springframework.jdbc.support.CustomSQLExceptionTranslatorRegistry;
 
 public interface PaymentService {
     Payment addPayment(PaymentRequestDTO requestDTO) throws RuntimeException;
+    PaymentRequestDTO show(PaymentRequestDTO paymentRequestDTO) throws RuntimeException;
 }

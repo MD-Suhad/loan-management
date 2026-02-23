@@ -6,7 +6,6 @@ import com.example.loanManagement.model.LoanStatus;
 import com.example.loanManagement.model.Payment;
 import com.example.loanManagement.repository.LoanRepository;
 import com.example.loanManagement.repository.PaymentRepository;
-import org.springframework.jdbc.support.CustomSQLExceptionTranslatorRegistry;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -24,7 +23,7 @@ public class PaymentServiceImpl implements PaymentService{
     @Override
     public Payment addPayment(PaymentRequestDTO paymentRequestDTO) throws RuntimeException {
 
-        Loan loan = loanRepository.findById(paymentRequestDTO.getLoanId()).orElseThrow(() -> new RuntimeException("Loan not found"));
+        Loan loan = loanRepository.findById(paymentRequestDTO.getLoanId()).orElseThrow(() -> new RuntimeException("Loan id not found"));
         Payment payment = new Payment();
         payment.setLoan(loan);
         payment.setAmountPaid(paymentRequestDTO.getAmountPaid());
@@ -43,5 +42,10 @@ public class PaymentServiceImpl implements PaymentService{
         loanRepository.save(loan);
 
         return payment;
+    }
+
+    @Override
+    public PaymentRequestDTO show(PaymentRequestDTO paymentRequestDTO) throws RuntimeException {
+        return null;
     }
 }
