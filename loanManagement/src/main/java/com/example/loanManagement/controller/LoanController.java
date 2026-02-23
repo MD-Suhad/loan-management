@@ -36,10 +36,12 @@ public class LoanController {
     }
     @DeleteMapping("/loans-delete-by-loanId/{loanId}")
     public ResponseEntity<String> getDeleteByLoan(@PathVariable Long loanId) {
-
-        String message = loanService.getDeleteByLoan(loanId);
-
-        return ResponseEntity.ok(message);
+        try {
+            String message = loanService.getDeleteByLoan(loanId);
+            return ResponseEntity.ok(message);
+        }catch (CustomException e){
+            return Response.exception().setErrors(e.getMessage());
+        }
     }
 }
 
