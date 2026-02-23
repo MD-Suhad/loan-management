@@ -8,6 +8,7 @@ import com.example.loanManagement.model.LoanStatus;
 import com.example.loanManagement.model.Payment;
 import com.example.loanManagement.repository.LoanRepository;
 import com.example.loanManagement.repository.PaymentRepository;
+import com.example.loanManagement.service.exception.CustomException;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -51,9 +52,8 @@ public class LoanServiceImpl implements LoanService{
         loan.setEmi(emi.doubleValue());
         loan.setTotalExpectedAmount(totalExpected.doubleValue());
         loan.setRemainingBalance(totalExpected.doubleValue());
-        loan.setStatus(LoanStatus.ACTIVE);
+        loan.setStatus(LoanStatus.PENDING);
         loan.setCreatedDate(LocalDate.now());
-
         return loanRepository.save(loan);
     }
 
@@ -79,5 +79,12 @@ public class LoanServiceImpl implements LoanService{
     @Override
     public List<Loan> getAllLoans() {
         return loanRepository.findAll();
+    }
+
+    @Override
+    public String getDeleteByLoan(Long loadId) throws CustomException {
+        Loan loan = this.loanRepository.findById(loadId).orElseThrow(() -> new CustomException("Loan Id Not Found"));
+        this.loanRepository.delete(loan);
+        return "Loan Deleted Successfully";
     }
 }
