@@ -38,6 +38,7 @@ public class Loan {
     private double remainingBalance;
 
     @Enumerated(EnumType.STRING)
+    @Column(length = 20)
     private LoanStatus status;
 
     private LocalDate createdDate;

@@ -6,6 +6,7 @@ import com.example.loanManagement.model.Loan;
 import com.example.loanManagement.service.exception.CustomException;
 import com.example.loanManagement.service.loan.LoanService;
 import org.apache.catalina.connector.Response;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,8 +40,10 @@ public class LoanController {
         try {
             String message = loanService.getDeleteByLoan(loanId);
             return ResponseEntity.ok(message);
-        }catch (CustomException e){
-            return Response.exception().setErrors(e.getMessage());
+        }catch (CustomException e) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(e.getMessage());
         }
     }
 }
